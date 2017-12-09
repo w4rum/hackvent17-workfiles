@@ -1,0 +1,5 @@
+Extract files, including custom font with
+    binwalk -e HoHoHo.pdf
+
+View custom font with fontforge, hidden chars at the end spell the solution
+when rendered
