@@ -15,9 +15,21 @@ def sendChoices(s, choices, expectWin=False):
         if i < len(choices) - 1 or not expectWin:
             output = s.readuntil("Field:")
             state   = readState(output)
-            printState(state)
         else:
             output = s.readuntil("start again")
+            flagFormat = "-[a-zA-Z0-9]{4}"
+            flags = re.compile("HV17" + flagFormat*5).findall(output)
+            if len(flags) > 0:
+                print("FLAGS!")
+                print("FLAGS!")
+                print("FLAGS!")
+                print("FLAGS!")
+                print("FLAGS!")
+                print("FLAGS!")
+                print("FLAGS!")
+                print(flags)
+                with open("flags", "a") as f:
+                    f.write(str(flags) + '\n')
     return output
 
 def readState(response):
@@ -70,7 +82,7 @@ followUp    = {
     "XOOOXXX*O" : [8, True],
 }
 
-while level <= 100:
+while level <= 999999999999:
     print("Level %i" % level)
     state = readState(resp)
     stateStr = "".join(state)
@@ -83,7 +95,7 @@ while level <= 100:
         break
     if "start again" in resp:
         if "Congratulations you won!" in resp:
-            if level < 99:
+            if level < 999999999999999:
                 level += 1
             else:
                 break
