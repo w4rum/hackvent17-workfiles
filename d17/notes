@@ -1,0 +1,125 @@
+!!! fixed MS-DOS signature: MS -> MZ
+!!! changed offet at 0x3c from 0x20 to 0x40
+!!! changed signature from PNE\x00 to PE\x00\x00
+!!! section amount 6 -> 4
+!!! Subsystem 3 (CLI) -> 2 (GUI)
+
+removed COFF debug info (PointerToSymbolTable, NumberOfSymbols)
+
+optheader size: 0xe0 = 224 = 56 bytes
+flags:
+- IMAGE_FILE_EXECUTABLE_IMAGE (ok) 0x0002
+- IMAGE_FILE_LINE_NUMS_STRIPPED (deprecated, should be zero) 0x0004
+- IMAGE_FILE_LOCAL_SYMS_STRIPPED (deprecated, should be zero) 0x0008
+- IMAGE_FILE_BYTES_REVERSED_LO (little endian is right, but deprecated) 0x0080
+- IMAGE_FILE_32BIT_MACHINE (ok) 0x0100
+- IMAGE_FILE_BYTES_REVERSED_HI (wrong and deprecated) 0x8000
+
+flags should be: 0x0002 | 0x0100 = 0x0102
+
+amount of sections: 6
+optheader start: 0x58
+standard fields: 0x58-0x73
+win-spec fields: 0x74-0xb8
+PE format: PE32
+linker version: 2.25
+size of code: 5632
+size of init data: 38400
+size of BSS: 0
+entry point: 0x1f72
+base of code: 0x1000
+base of data: 0x3000
+--- winspec
+pref imagebase: 0x400000 (Win95+ standard)
+OS version: 1.0
+image version: 0.0 (!)
+subsystem version: 4.0
+size of image: 61440 bytes
+size of headers (MS-DOS, PE, section headers), rounded up mult of 512: 512
+checksum: 0 (!)
+required subsystem: 3 = windows character subsystem (2 would be GUI)
+NO DLL characteristics flags
+reserved stack size: 1048576 (1MB)
+committed stack size: 8192 (8KB)
+reserved heap size: 1048576 (1MB)
+committed heap size: 4096 (4KB)
+amount of data-dir entries: 16
+
+no export table (.edata)
+import table (.idata) @ 0x4000, size 786
+resource table (.rsrc) @ 0x6000, size 35328
+no tables:
+- exception
+- certificate
+- base relocation
+- debug data
+- thread local storage
+- load config table (?)
+- bound import
+- import address table (IAT) (?)
+- delay import descriptor
+- .cormeta
+global pointer register initialized to 0
+
+Section Table @ 0x138
+CODE:
+8192 size
+@ 0x1000
+5288 size of init data (! not multiple of 512)
+pointer to raw data 512 (rounded prob)
+no relocations
+no line-numbers
+flags:
+- IMAGE_SCN_LNK_INFO (contains comments or other info)
+- IMAGE_SCN_MEM_EXECUTE can be executed
+- IMAGE_SCN_MEM_READ can be read
+
+DATA:
+4096 size
+@ 0x3000
+293 size of init data (! not multiple of 512)
+pointer to raw data 6144/0x1800 (rounded prob)
+no relocations
+no line-numbers
+flags:
+- reserved (0x40) / contains initialized data
+- read
+- write
+
+.idata:
+8192 size
+@ 0x4000
+788 size of init data (! not multiple of 512)
+pointer to raw data 6656/0x1a00 (rounded prob)
+no relocations
+no line-numbers
+flags:
+- reserved (0x40) / contains initialized data
+- read
+- write
+
+.rsrc:
+36864 size
+@ 0x6000
+34929 size of init data (! not multiple of 512)
+pointer to raw data 7680/0x1e00 (rounded prob)
+no relocations
+no line-numbers
+flags:
+- reserved (0x10) IMAGE_SCN_TYPE_COPY (?)
+- reserved (0x40) / contains initialized data
+- read
+- write
+
+(unnamed section):
+full zeroes
+flag:
+- mostly garbage
+added name "UNUSED"
+removed garbage flags
+
+(missing section)
+fixed amount of sections: 6 -> 5
+
+HV17-wb4B-N9Q6-xVd9-KdAP-txiK
+HV17-OMdo-9zjO-CVd9-KdAP-txiK
